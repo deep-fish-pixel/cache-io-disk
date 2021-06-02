@@ -1,0 +1,30 @@
+{
+  "name": "cache-io-disk",
+  "version": "1.0.0",
+  "description": "cache io disk",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node test/index.js",
+    "debug": "node --inspect test/index.js",
+    "test": "echo \\\"Error: no dist specified\\\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maweimaweima/cache-io-disk.git"
+  },
+  "keywords": [
+    "object",
+    "file",
+    "sync"
+  ],
+  "author": "deepFish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maweimaweima/cache-io-disk/issues"
+  },
+  "homepage": "https://github.com/maweimaweima/cache-io-disk#readme",
+  "dependencies": {
+    "console-log-cmd": "^1.0.1",
+    "fs-extra": "^10.0.0"
+  }
+}
