@@ -9,6 +9,6 @@ Install with npm:
 ### Uses
 
 ```
-readFile(file).then();
-writeFile(file).then();
+readFile(file).then(data => {});
+writeFile(file).then(result => {});
 ```
