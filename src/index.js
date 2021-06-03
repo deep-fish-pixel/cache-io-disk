@@ -47,11 +47,9 @@ function writeFile(file, content) {
     // 缓存内容
     cacheFileMap.set(file, content);
     return Promise.resolve(content)
-  } catch(error){
-    Promise.reject(error).catch((e) => {
-      error(`[写入文件失败] ${file} ${e.message}`);
-      return false;
-    })
+  } catch(e){
+    error(`[写入文件失败] ${file} ${e.message}`);
+    return Promise.resolve(false);
   }
 }
 
