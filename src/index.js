@@ -53,7 +53,27 @@ function writeFile(file, content) {
   }
 }
 
+/**
+ * 指定父级目录，写入所有文件内容并缓存
+ * @returns {Promise<T>}
+ * @param dir
+ * @param callback
+ */
+function writeDirFiles(dir, callback) {
+  const dirEndFlag = path.join(dir, '/');
+  cacheFileMap.forEach((content, filePath, map) => {
+    if (filePath.indexOf(dirEndFlag) === 0) {
+      const newContent = callback(content, filePath);
+      if (newContent !== content) {
+        writeFile(filePath, newContent);
+      }
+    }
+  });
+}
+
+
 module.exports = {
   readFile,
   writeFile,
+  writeDirFiles,
 };
