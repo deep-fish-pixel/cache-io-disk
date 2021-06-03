@@ -42,13 +42,17 @@ function writeFile(file, content) {
       return Promise.resolve(content);
     }
   }
-  // 先缓存内容
-  cacheFileMap.set(file, content);
-  fse.writeFileSync(file, content)
-  return Promise.resolve(content).catch((e) => {
-    error(`[写入文件失败] ${file} ${e.message}`);
-    return false;
-  })
+  try {
+    fse.writeFileSync(file, content)
+    // 缓存内容
+    cacheFileMap.set(file, content);
+    return Promise.resolve(content)
+  } catch(error){
+    Promise.reject(error).catch((e) => {
+      error(`[写入文件失败] ${file} ${e.message}`);
+      return false;
+    })
+  }
 }
 
 module.exports = {
