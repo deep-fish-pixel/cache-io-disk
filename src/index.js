@@ -1,4 +1,5 @@
 const fse = require('fs-extra');
+const path = require('path');
 const { error } = require('console-log-cmd');
 
 const cacheFileMap = new Map();
