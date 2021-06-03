@@ -14,15 +14,18 @@ function readFile(file, noCache) {
   if (content) {
     return Promise.resolve(content);
   } else {
-    const content = fse.readFileSync(file, 'utf8');
-    // 缓存文件
-    cacheFileMap.set(file, content);
-    return Promise.resolve(content).then((content) => {
-      return content;
-    }).catch((e) => {
-      error(`[读取文件失败]不存在该文件: ${file}`);
-      return false;
-    });
+    if (fse.existsSync(file)) {
+      const content = fse.readFileSync(file, 'utf8');
+      // 缓存文件
+      cacheFileMap.set(file, content);
+      return Promise.resolve(content).then((content) => {
+        return content;
+      }).catch((e) => {
+        error(`[读取文件失败]不存在该文件: ${file}`);
+        return false;
+      });
+    }
+    return Promise.resolve(null);
   }
 }
 /**
