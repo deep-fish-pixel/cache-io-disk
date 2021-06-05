@@ -1,6 +1,7 @@
 const fse = require('fs-extra');
 const path = require('path');
 const { error } = require('console-log-cmd');
+const SyncPromise = require('synchronous-promise');
 
 const cacheFileMap = new Map();
 
@@ -13,20 +14,20 @@ const cacheFileMap = new Map();
 function readFile(file, noCache) {
   const content = noCache ? false : cacheFileMap.get(file);
   if (content) {
-    return Promise.resolve(content);
+    return SyncPromise.resolve(content);
   } else {
     if (fse.existsSync(file)) {
       const content = fse.readFileSync(file, 'utf8');
       // 缓存文件
       cacheFileMap.set(file, content);
-      return Promise.resolve(content).then((content) => {
+      return SyncPromise.resolve(content).then((content) => {
         return content;
       }).catch((e) => {
         error(`[读取文件失败]不存在该文件: ${file}`);
         return false;
       });
     }
-    return Promise.resolve(null);
+    return SyncPromise.resolve(null);
   }
 }
 /**
@@ -40,23 +41,22 @@ function writeFile(file, content) {
     const originalContent = fse.readFileSync(file, 'utf8');
     // 解决重复写入导致编辑器重新加载
     if (originalContent === content) {
-      return Promise.resolve(content);
+      return SyncPromise.resolve(content);
     }
   }
   try {
     fse.writeFileSync(file, content)
     // 缓存内容
     cacheFileMap.set(file, content);
-    return Promise.resolve(content)
+    return SyncPromise.resolve(content)
   } catch(e){
     error(`[写入文件失败] ${file} ${e.message}`);
-    return Promise.resolve(false);
+    return SyncPromise.resolve(false);
   }
 }
 
 /**
  * 指定父级目录，写入所有文件内容并缓存
- * @returns {Promise<T>}
  * @param dir
  * @param callback
  */
